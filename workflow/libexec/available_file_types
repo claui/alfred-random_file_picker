@@ -1,0 +1,54 @@
+#!/bin/bash
+
+STALE_CACHE_FILE=2
+NO_CACHE_FILE_PRESENT=3
+
+function file_types {
+  mdls -raw \
+    -name kMDItemContentType \
+    -name kMDItemFSName \
+    -name kMDItemKind \
+    "${base_path}"/*
+}
+
+set -o pipefail
+
+if [[ "${CACHE_ENABLED:-1}" -eq 0 ]]; then
+  export base_path
+  file_types \
+    | /usr/bin/ruby -0 -E utf-8 libexec/file_types_to_yaml.rb \
+    | /usr/bin/ruby -E utf-8 \
+      libexec/yaml_to_script_filter_result.rb
+  exit "$?"
+fi
+
+source lib/caching.bash
+__caching__load_cache_filename
+
+for attempt in 1 2; do
+  if [[ -e "${cache_filename}" ]]; then
+    /usr/bin/ruby -E utf-8 \
+      libexec/yaml_to_script_filter_result.rb \
+      "${cache_filename}"
+  else
+    (exit "${NO_CACHE_FILE_PRESENT}")
+  fi
+  exitstatus="$?"
+
+  case "${exitstatus}" in
+  0)
+    break
+    ;;
+
+  "${STALE_CACHE_FILE}" | "${NO_CACHE_FILE_PRESENT}")
+    export base_path
+    file_types \
+      | /usr/bin/ruby -0 -E utf-8 libexec/file_types_to_yaml.rb \
+        > "${cache_filename}"
+    ;;
+
+  *)
+    exit "${exitstatus}"
+    ;;
+  esac
+done

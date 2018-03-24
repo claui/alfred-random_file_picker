@@ -1,0 +1,14 @@
+# bundle_id = "domain.id"
+# path is the relative path to the workflow in the project root
+---
+path: workflow
+domain: 'cat.claudi.alfredworkflow'
+id: 'random_file_picker'
+createdby: 'Claudia'
+description: 'Copy a subset of files to another folder'
+name: 'Random File Picker'
+category: ''
+webaddress: 'https://github.com/claui/alfred-random_file_picker'
+# If you are using Alfred's advanced Dropbox sync, indicate the path shown in
+# Alfred Preferences > Advanced > Syncing:
+dropbox: ''

@@ -1,0 +1,156 @@
+#encoding: utf-8
+
+require 'pathname'
+require 'plist'
+require 'tempfile'
+require 'tmpdir'
+
+$config['url_bundle_root'] =
+  File.join($config['path'], 'libexec/helpers')
+$config['url_bundle_path'] =
+  File.join($config['url_bundle_root'],
+    "#{ $config['name'] } URL Helper.app")
+$config['url_bundle_plist'] =
+  File.join($config['url_bundle_path'], 'Contents/Info.plist')
+$config['payloads_relative_to_project'] =
+  $config.fetch('urlhandlers', {}).values.map do |p|
+    File.join($config['path'], p)
+  end
+$config['lsregister_path'] = '/System/Library/Frameworks/' +
+  'CoreServices.framework/Versions/A/Frameworks/' +
+  'LaunchServices.framework/Versions/A/Support/lsregister'
+
+desc "Open workflow README"
+task :readme do
+  readme_xpath = "string(/plist/dict/key[text()='readme']/following-sibling::string[1])"
+  xmllint_cmd = %Q{ /usr/bin/xmllint --xpath \"#{ readme_xpath }\" \"#{ $config["plist"]}\" }
+  temp_options = { encoding: Encoding::UTF_8 }
+
+  tempdir_name = Dir::Tmpname.create("#{ $config["name"] }.") { }
+  tempdir = Pathname(tempdir_name)
+  tempdir.mkdir
+  tempfile_name = tempdir + "#{ $config["name"] } README.md"
+
+  tempfile = File.open(tempfile_name, 'w', temp_options)
+  old_stdout = $stdout.dup
+  $stdout.reopen(tempfile)
+
+  sh xmllint_cmd do |ok, res|
+    tempfile.close
+    $stdout.reopen(old_stdout)
+
+    if ok
+      sh "open \"#{ tempfile.path }\""
+    else
+      puts "No README found (status = #{ res.exitstatus })"
+    end
+  end
+end
+
+desc <<-EOS
+  Build URL handlers
+  (this requires a `urlhandlers` hash in `config.yml`)
+EOS
+task :'build-url-handlers' => $config['url_bundle_path']
+
+rule $config['url_bundle_path'] =>
+  $config['payloads_relative_to_project'] + ['config.yml'] do |f|
+  unless $config['urlhandlers']
+    abort <<-EOS
+      This task requires a `urlhandler` section
+      in `config.yml`, e. g.:
+
+      urlhandlers:
+        foo: libexec/foo_handler.rb
+        bar: libexec/bar_handler.scpt
+    EOS
+  end
+
+  Tempfile.open(['url_handler', '.scpt']) do |tempfile|
+    tempfile.write <<-EOS
+    on open location(uri)
+      do shell script "logger -t '#{ $config['bundleid'] }' \\"" & ¬
+        "Received URI: " & uri & ¬
+        "\\""
+
+      set oldDelims to AppleScript's text item delimiters
+      set AppleScript's text item delimiters to {"://"}
+      set uriScheme to (item 1 of text items of uri as text)
+      set AppleScript's text item delimiters to oldDelims
+
+      set scriptPath to ((path to me as text) & "::")
+      set projectRoot to (POSIX path of scriptPath) & "../../"
+
+    #{
+      cases = $config['urlhandlers'].map do |scheme, exe|
+        %{if uriScheme is "#{ scheme }" then set exe to "#{ exe }"}
+      end
+      cases.join("\n\n")
+    }
+
+      set targetPath to projectRoot & exe
+
+      try
+        do shell script "'" & targetPath & "' '" & uri & "'" & ¬
+          ">> ~/Library/Logs/Alfred-Workflow.log"
+      on error errorMessage
+        do shell script "echo 'Error: " & errorMessage & "'" & ¬
+          "| tee -a ~/Library/Logs/Alfred-Workflow.log " & ¬
+          "| logger -t '#{ $config['bundleid'] }'"
+      end try
+    end open location
+    EOS
+    tempfile.close
+
+    mkdir_p $config['url_bundle_root']
+
+    sh '/usr/bin/osacompile',
+      '-o', $config['url_bundle_path'],
+      tempfile.path
+
+    info = Plist::parse_xml($config['url_bundle_plist'])
+
+    info['CFBundleIdentifier'] =
+      "#{ $config['bundleid'] }.urlhelper"
+    info['CFBundleURLTypes'] = [{
+      'CFBundleURLName' => "#{ $config['name'] } URL Helper",
+      'CFBundleURLSchemes' => $config['urlhandlers'].keys
+    }]
+
+    File.open($config['url_bundle_plist'], 'wb') do |file|
+      file.write(info.to_plist)
+    end
+
+    touch $config['url_bundle_path']
+    sh $config['lsregister_path'], '-f',
+      $config['url_bundle_path']
+  end
+end
+
+task :add_url_scheme,
+  [:bundle_name, :scheme_name, :payload_path] do |f, args|
+  if args.to_hash.empty?
+    abort <<-EOS
+      Usage:
+        rake #{ f.name }['BUNDLE_NAME SCHEME_NAME PAYLOAD_PATH']
+
+      Example:
+        rake #{ f.name }['Foo Helper.app, foo: ./libexec/foo.rb']
+    EOS
+  end
+
+  bundle_name = args.bundle_name
+  unless bundle_name && bundle_name.end_with?('.app')
+    abort 'Argument #1 needs to be a bundle name, e. g. `Foo.app`'
+  end
+
+  scheme_name = args.scheme_name
+  unless scheme_name && scheme_name.end_with?(':')
+    abort 'Argument #2 needs to be a scheme name, e. g. `foo:`'
+  end
+
+  payload_path = args.payload_path
+  unless payload_path && payload_path.start_with?('./')
+    abort 'Argument #3 needs to be a relative path, e. g. `./foo`'
+  end
+end
