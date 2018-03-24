@@ -1,8 +1,6 @@
 #!/bin/bash
 
-set -e
+export base_path
 
-source lib/caching.bash
-
-__caching__load_cache_filename
-rm -f "${cache_filename?}"
+/usr/bin/ruby -E utf-8 libexec/evict_cache_entry.rb \
+  "${alfred_workflow_cache?}/base_paths.pstore"

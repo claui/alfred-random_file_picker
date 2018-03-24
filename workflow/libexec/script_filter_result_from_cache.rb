@@ -1,17 +1,35 @@
 #encoding: utf-8
 
 require 'json'
-require 'yaml'
+require 'pstore'
 
-EXIT_STATUS_STALE_CACHE_FILE = 2
+EXIT_STATUS_STALE_CACHE_ENTRY = 2
+EXIT_STATUS_NO_CACHE_ENTRY_PRESENT = 3
+EXIT_STATUS_NO_BASE_PATH_GIVEN = 4
+EXIT_STATUS_NO_PSTORE_PATH_GIVEN = 5
 
-file_type_cache = YAML.load(ARGF.read)
-
-if file_type_cache.fetch(:expire_date) < Time.now
-  exit EXIT_STATUS_STALE_CACHE_FILE
+pstore_path = ARGV.first
+if pstore_path.nil? || pstore_path.empty?
+  exit EXIT_STATUS_NO_PSTORE_PATH_GIVEN
 end
 
 base_path = ENV['base_path']
+if base_path.nil?
+  exit EXIT_STATUS_NO_BASE_PATH_GIVEN
+end
+
+file_type_cache =
+  PStore.new(pstore_path).transaction(true) do |pstore|
+  pstore.fetch(base_path, nil)
+end
+
+if file_type_cache.nil?
+  exit EXIT_STATUS_NO_CACHE_ENTRY_PRESENT
+end
+
+if file_type_cache.fetch(:expire_date) < Time.now
+  exit EXIT_STATUS_STALE_CACHE_ENTRY
+end
 
 quantities_json = ENV['quantities_json']
 quantities = quantities_json ? JSON.parse(quantities_json) : {}
