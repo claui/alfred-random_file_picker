@@ -2,5 +2,7 @@
 
 export base_path
 
+mkdir -p "${alfred_workflow_cache?}"
+
 /usr/bin/ruby -E utf-8 libexec/evict_cache_entry.rb \
-  "${alfred_workflow_cache?}/base_paths.pstore"
+  "${alfred_workflow_cache?}/file_types.pstore"

@@ -6,8 +6,8 @@ CACHE_TTL_MINUTES = 3
 EXIT_STATUS_NO_BASE_PATH_GIVEN = 4
 EXIT_STATUS_NO_PSTORE_PATH_GIVEN = 5
 
-pstore_path = ARGV.first
-if pstore_path.nil? || pstore_path.empty?
+cache_filename = ARGV.first
+if (cache_filename || '').empty?
   exit EXIT_STATUS_NO_PSTORE_PATH_GIVEN
 end
 
@@ -25,9 +25,11 @@ file_types_map =
       md_item_content_type:    md_item_content_type,
       md_item_fs_name_example: metadata[1].chomp,
       md_item_kind:            metadata[2].chomp,
+      num_files_available:     0,
     }
   end
 
+  hash[md_item_content_type][:num_files_available] += 1
   hash
 end
 
@@ -39,6 +41,6 @@ file_type_cache = {
   expire_date: Time.now + CACHE_TTL_MINUTES * 60
 }
 
-PStore.new(pstore_path).transaction do |pstore|
+PStore.new(cache_filename).transaction do |pstore|
   pstore[base_path] = file_type_cache
 end

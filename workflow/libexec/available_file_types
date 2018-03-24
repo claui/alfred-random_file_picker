@@ -3,23 +3,20 @@
 STALE_CACHE_ENTRY=2
 NO_CACHE_ENTRY_PRESENT=3
 
-function file_types {
-  mdls -raw \
-    -name kMDItemContentType \
-    -name kMDItemFSName \
-    -name kMDItemKind \
-    "${base_path}"/*
-}
-
 set -o pipefail
 
 export base_path
-cache_filename="${alfred_workflow_cache?}/base_paths.pstore"
+
+mkdir -p "${alfred_workflow_cache?}"
+mkdir -p "${alfred_workflow_data?}"
+
+cache_filename="${alfred_workflow_cache}/file_types.pstore"
+state_filename="${alfred_workflow_data}/state.pstore"
 
 for attempt in 1 2; do
   /usr/bin/ruby -E utf-8 \
     libexec/script_filter_result_from_cache.rb \
-    "${cache_filename}"
+    "${cache_filename}" "${state_filename}"
   exitstatus="$?"
 
   case "${exitstatus}" in
@@ -28,7 +25,11 @@ for attempt in 1 2; do
     ;;
 
   "${STALE_CACHE_ENTRY}" | "${NO_CACHE_ENTRY_PRESENT}")
-    file_types \
+    mdls -raw \
+      -name kMDItemContentType \
+      -name kMDItemFSName \
+      -name kMDItemKind \
+      "${base_path?}"/* \
       | /usr/bin/ruby -0 -E utf-8 \
         libexec/save_file_types_to_cache.rb "${cache_filename}"
     ;;

@@ -6,11 +6,21 @@ require 'pstore'
 EXIT_STATUS_STALE_CACHE_ENTRY = 2
 EXIT_STATUS_NO_CACHE_ENTRY_PRESENT = 3
 EXIT_STATUS_NO_BASE_PATH_GIVEN = 4
-EXIT_STATUS_NO_PSTORE_PATH_GIVEN = 5
+EXIT_STATUS_NO_CACHE_PATH_GIVEN = 5
+EXIT_STATUS_NO_STATE_PATH_GIVEN = 6
 
-pstore_path = ARGV.first
-if pstore_path.nil? || pstore_path.empty?
-  exit EXIT_STATUS_NO_PSTORE_PATH_GIVEN
+REJECT = [
+  'com.apple.application-bundle',
+  'public.folder',
+  'public.volume',
+]
+
+cache_filename, state_filename = ARGV
+if (cache_filename || '').empty?
+  exit EXIT_STATUS_NO_CACHE_PATH_GIVEN
+end
+if (state_filename || '').empty?
+  exit EXIT_STATUS_NO_STATE_PATH_GIVEN
 end
 
 base_path = ENV['base_path']
@@ -18,10 +28,9 @@ if base_path.nil?
   exit EXIT_STATUS_NO_BASE_PATH_GIVEN
 end
 
-file_type_cache =
-  PStore.new(pstore_path).transaction(true) do |pstore|
-  pstore.fetch(base_path, nil)
-end
+file_type_cache = PStore
+  .new(cache_filename)
+  .transaction(true) { |pstore| pstore.fetch(base_path, nil) }
 
 if file_type_cache.nil?
   exit EXIT_STATUS_NO_CACHE_ENTRY_PRESENT
@@ -31,37 +40,55 @@ if file_type_cache.fetch(:expire_date) < Time.now
   exit EXIT_STATUS_STALE_CACHE_ENTRY
 end
 
-quantities_json = ENV['quantities_json']
-quantities = quantities_json ? JSON.parse(quantities_json) : {}
+state = PStore
+  .new(state_filename)
+  .transaction(true) { |pstore| pstore.fetch(:state, {}) }
+
+destination_folder = state[:destination_folder] || ''
+has_destination = !destination_folder.empty?
+
+num_files_requested_by_type = if ENV['num_files_requested_by_type']
+  JSON.parse(ENV['num_files_requested_by_type'])
+else
+  {}
+end
 
 file_type_map_with_quantities =
   file_type_cache[:file_types].map do |hash|
     hash.merge Hash[
-      :quantity,
-      quantities
+      :num_files_requested,
+      num_files_requested_by_type
         .fetch(hash[:md_item_content_type], 0)
         .to_i
     ]
 end
 
 script_filter_items = file_type_map_with_quantities
-  .sort_by { |hash| -(hash[:quantity]) }
+  .reject { |hash| REJECT.include?(hash[:md_item_content_type]) }
+  .sort_by { |hash| -(hash[:num_files_requested]) }
   .map do |hash|
-  quantity = hash[:quantity]
+  num_files_available = hash[:num_files_available]
+  num_files_requested = hash[:num_files_requested]
 
-  if quantity.zero?
+  if num_files_requested.zero?
+    noun_available = num_files_available == 1 ? 'file' : 'files'
     title = hash[:md_item_kind]
-    subtitle = 'Press Enter to select quantity'
-  else
-    title = "#{hash[:md_item_kind]} × #{quantity}"
     subtitle = [
-      quantity,
-      'random files of this type will be picked',
+      "ca. #{num_files_available} #{noun_available} available",
+      'press Enter to select quantity'
+    ].join('; ')
+  else
+    noun_requested = num_files_requested == 1 ? 'file' : 'files'
+    title = "#{hash[:md_item_kind]} × #{num_files_requested}"
+    subtitle = [
+      num_files_requested,
+      "random #{noun_requested} will be picked",
+      "out of ca. #{num_files_available}",
     ].join(' ')
   end
 
   {
-    arg: (quantity.zero? ? '' : quantity),
+    arg: (num_files_requested.zero? ? '' : num_files_requested),
     autocomplete: hash[:md_item_kind],
     icon: {
       path: hash[:md_item_content_type],
@@ -85,7 +112,7 @@ script_filter_items = file_type_map_with_quantities
       },
       ctrl: {
         valid: false,
-        subtitle: '',
+        subtitle: "Content type: #{hash[:md_item_content_type]}",
       },
     },
     subtitle: subtitle,
@@ -95,12 +122,13 @@ script_filter_items = file_type_map_with_quantities
       md_item_content_type: hash[:md_item_content_type],
       md_item_fs_name_example: hash[:md_item_fs_name_example],
       md_item_kind: hash[:md_item_kind],
+      num_files_available: hash[:num_files_available],
     },
   }
 end
 
-has_quantity = file_type_map_with_quantities.any? do |hash|
-  hash[:quantity].nonzero? 
+has_files_requested = file_type_map_with_quantities.any? do |hash|
+  hash[:num_files_requested].nonzero?
 end
 
 command_submit = {
@@ -117,6 +145,42 @@ command_submit = {
   title: 'Submit and copy random files',
   variables: {
     action: :submit,
+  },
+}
+
+command_select_folder = {
+  mods: {
+    alt: {
+      valid: false,
+      subtitle: '',
+    },
+    cmd: {
+      arg: destination_folder,
+      subtitle: 'Reveal folder in Finder',
+      valid: has_destination,
+      variables: {
+        action: :reveal,
+      },
+    },
+    ctrl: {
+      valid: false,
+      subtitle: '',
+    },
+  },
+  subtitle:
+    if has_destination
+      'Press Enter to select a different folder'
+    else
+      'Random files will be copied to this location'
+    end,
+  title:
+    if has_destination
+      "Destination: #{destination_folder}"
+    else
+      'Select destination folder'
+    end,
+  variables: {
+    action: 'choose_destination',
   },
 }
 
@@ -139,14 +203,16 @@ command_refresh = {
 
 script_filter_message = {
   items: [
-    (command_submit if has_quantity),
+    (command_submit if has_files_requested && has_destination),
+    command_select_folder,
     *script_filter_items,
     command_refresh,
   ].compact,
   variables: {
     action: nil,
     md_item_content_type: nil,
-    quantities_json: quantities.to_json
+    num_files_requested_by_type:
+      num_files_requested_by_type.to_json,
   }
 }
 

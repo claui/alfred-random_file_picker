@@ -6,11 +6,50 @@
 	<string>cat.claudi.alfredworkflow.random_file_picker</string>
 	<key>connections</key>
 	<dict>
-		<key>13D3AD94-ECBD-4260-8E99-E430B03DB87D</key>
+		<key>18D64935-3D3E-426B-AB73-BF54FE73EB1C</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
-				<string>DCCAB01E-3D05-4AA6-8672-1268A0143BA2</string>
+				<string>1C25016B-F972-47CD-B2EE-DAB9BBA49496</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>1AD254CB-357C-4889-98BF-CD8BEEB41D24</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>2AFE0C71-C150-4318-ACA8-1AE2DD7A03D7</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>22E5321F-D45F-4424-9678-F4A0278D3E6B</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C450DD2C-F01F-4E1A-BA72-991476BFBCF8</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>2AFE0C71-C150-4318-ACA8-1AE2DD7A03D7</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>18D64935-3D3E-426B-AB73-BF54FE73EB1C</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -110,6 +149,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>C450DD2C-F01F-4E1A-BA72-991476BFBCF8</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3F85C821-C554-4A93-BA2D-C2C3AF8AD8BF</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>C6E8A180-76DA-47C3-BE02-44118CBE43C7</key>
 		<array>
 			<dict>
@@ -138,6 +190,16 @@
 			<dict>
 				<key>destinationuid</key>
 				<string>9B6962B7-8993-4EBF-91EA-041A3C0DFCFD</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>E55C3764-BD8C-48E1-9ACA-3A1E7A8C61A9</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -176,19 +238,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>DCCAB01E-3D05-4AA6-8672-1268A0143BA2</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>739F94F1-DF15-4A22-A151-7E008F846010</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 		<key>E1EF38D9-BECE-4171-9F26-98BD0C3B96CF</key>
 		<array>
 			<dict>
@@ -215,6 +264,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>E55C3764-BD8C-48E1-9ACA-3A1E7A8C61A9</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>22E5321F-D45F-4424-9678-F4A0278D3E6B</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>FD28022F-1950-4E95-8D71-00A6399E5C73</key>
 		<array>
 			<dict>
@@ -232,13 +294,32 @@
 	<key>createdby</key>
 	<string>Claudia</string>
 	<key>description</key>
-	<string>Copy a subset of files to another folder</string>
+	<string>Copy a random subset of files to another folder</string>
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
 	<string>Random File Picker</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>acceptsmulti</key>
+				<false/>
+				<key>filetypes</key>
+				<array>
+					<string>public.folder</string>
+				</array>
+				<key>name</key>
+				<string>Pick random files</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.action</string>
+			<key>uid</key>
+			<string>E4F75646-4780-4547-8C79-126B64E812DB</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -286,47 +367,6 @@
 			<integer>2</integer>
 		</dict>
 		<dict>
-			<key>config</key>
-			<dict>
-				<key>acceptsmulti</key>
-				<false/>
-				<key>filetypes</key>
-				<array>
-					<string>public.folder</string>
-				</array>
-				<key>name</key>
-				<string>Pick random files</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.action</string>
-			<key>uid</key>
-			<string>E4F75646-4780-4547-8C79-126B64E812DB</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argument</key>
-				<string></string>
-				<key>variables</key>
-				<dict>
-					<key>LOGGER_LOGFILE</key>
-					<string>~/Library/Logs/Alfred-Workflow.log</string>
-					<key>action</key>
-					<string>list_file_types</string>
-					<key>base_path</key>
-					<string>{query}</string>
-				</dict>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>739F94F1-DF15-4A22-A151-7E008F846010</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.junction</string>
 			<key>uid</key>
@@ -350,6 +390,39 @@
 			<string>alfred.workflow.utility.filter</string>
 			<key>uid</key>
 			<string>6F30A673-E2C2-4398-97B7-CB20A7E038AF</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>action</key>
+					<string>list_file_types</string>
+					<key>base_path</key>
+					<string>{query}</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>739F94F1-DF15-4A22-A151-7E008F846010</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>triggerid</key>
+				<string>dispatch</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.trigger.external</string>
+			<key>uid</key>
+			<string>5CB6A2A4-0E8F-4A05-A9E0-38EDBA7337BD</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -422,65 +495,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>triggerid</key>
-				<string>dispatch</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.external</string>
-			<key>uid</key>
-			<string>5CB6A2A4-0E8F-4A05-A9E0-38EDBA7337BD</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>action</key>
-				<integer>0</integer>
-				<key>argument</key>
-				<integer>0</integer>
-				<key>focusedappvariable</key>
-				<false/>
-				<key>focusedappvariablename</key>
-				<string></string>
-				<key>hotkey</key>
-				<integer>0</integer>
-				<key>hotmod</key>
-				<integer>1310720</integer>
-				<key>hotstring</key>
-				<string>A</string>
-				<key>leftcursor</key>
-				<false/>
-				<key>modsmode</key>
-				<integer>0</integer>
-				<key>relatedAppsMode</key>
-				<integer>0</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.trigger.hotkey</string>
-			<key>uid</key>
-			<string>13D3AD94-ECBD-4260-8E99-E430B03DB87D</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argument</key>
-				<string>/Users/claudia/test</string>
-				<key>variables</key>
-				<dict/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>DCCAB01E-3D05-4AA6-8672-1268A0143BA2</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>inputstring</key>
 				<string>{var:action}</string>
 				<key>matchcasesensitive</key>
@@ -494,6 +508,74 @@
 			<string>alfred.workflow.utility.filter</string>
 			<key>uid</key>
 			<string>9B6962B7-8993-4EBF-91EA-041A3C0DFCFD</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>state_filename="${alfred_workflow_data}/state.pstore"
+
+destination_folder="$(osascript libexec/choose_destination.applescript)"
+
+if [[ "${destination_folder}" ]]; then
+  /usr/bin/ruby -E utf-8 \
+    libexec/save_state.rb "${state_filename}" \
+    'destination_folder' "${destination_folder}"
+fi</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>22E5321F-D45F-4424-9678-F4A0278D3E6B</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>inputstring</key>
+				<string>{var:action}</string>
+				<key>matchcasesensitive</key>
+				<true/>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>matchstring</key>
+				<string>choose_destination</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.filter</string>
+			<key>uid</key>
+			<string>E55C3764-BD8C-48E1-9ACA-3A1E7A8C61A9</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>action</key>
+					<string>list_file_types</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>C450DD2C-F01F-4E1A-BA72-991476BFBCF8</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -523,6 +605,24 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>argument</key>
+				<string></string>
+				<key>variables</key>
+				<dict>
+					<key>action</key>
+					<string>list_file_types</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>C6E8A180-76DA-47C3-BE02-44118CBE43C7</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>inputstring</key>
 				<string>{var:action}</string>
 				<key>matchcasesensitive</key>
@@ -542,18 +642,81 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argument</key>
-				<string>{query}</string>
-				<key>variables</key>
-				<dict>
-					<key>action</key>
-					<string>list_file_types</string>
-				</dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+				<key>title</key>
+				<string>Copying files</string>
 			</dict>
 			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
+			<string>alfred.workflow.output.notification</string>
 			<key>uid</key>
-			<string>C6E8A180-76DA-47C3-BE02-44118CBE43C7</string>
+			<string>2AFE0C71-C150-4318-ACA8-1AE2DD7A03D7</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>state_filename="${alfred_workflow_data}/state.pstore"
+
+set -o pipefail
+
+mdls -raw \
+  -name kMDItemContentType \
+  -name kMDItemFSName \
+  -name kMDItemKind \
+  "${base_path?}"/* \
+  | /usr/bin/ruby -0 -E utf-8 \
+    libexec/copy_files.rb "${state_filename}"
+
+exitstatus="$?"
+
+if [[ "${exitstatus}" -ne 0 ]]; then
+  printf 'Copying failed with status code %d' "${exitstatus}"
+fi</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>18D64935-3D3E-426B-AB73-BF54FE73EB1C</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string></string>
+				<key>title</key>
+				<string>{query}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>1C25016B-F972-47CD-B2EE-DAB9BBA49496</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
@@ -609,56 +772,78 @@
 
 **Random File Picker** is an [Alfred](https://www.alfredapp.com/) workflow.
 
+It adds a file action called _Pick random files_ to Alfred. The file action allows the user to enter a number, then it picks that exact number of files randomly from the chosen folder. It then copies that random set of files to a chosen destination folder.
+
+This workflow was inspired by Sr_Navarre’s posts on [Reddit](https://www.reddit.com/r/Alfred/comments/86aztk/could_someone_who_knows_about_writing_scripts/) and [the Alfred forum](https://www.alfredforum.com/topic/11363-how-can-i-use-alfred-to-choose-a-random-selection-from-a-large-group-of-files/).
+
 
 ## Release history
 
-- Current version: v0.0.0
+- Current version: v0.1
 
 
 ## Requirements
 
 Random File Picker has the following requirements:
 
-- Alfred&amp;nbsp;3 or newer (including the **Alfred&amp;nbsp;Powerpack**) by Andrew and Vero Pepperrell of Running&amp;nbsp;with&amp;nbsp;Crayons Ltd.
+- Alfred&amp;nbsp;3.5 or newer (including the **Alfred&amp;nbsp;Powerpack**) by Andrew and Vero Pepperrell of Running&amp;nbsp;with&amp;nbsp;Crayons Ltd.
+
+- macOS 10.12 Sierra or newer
+
 
 ## Main features
 
-Currently, there is no description of Random File Picker’s main features yet.
+This workflow lets the user choose a number of files per file type, for example:
 
-## Examples
+- PNG file × 50
+- MPEG-4 file × 3
 
-Currently, there is no example of how to use the Random File Picker workflow.
+It also allows the user to pick a destination folder, for example `~/Downloads`. This specifies the location where the random set of files will be copied.
+
+For each selected file type, the workflow then picks the specified number of random files (per file type) and copies those files to the chosen destination folder.
+
+
+## Example
+
+1. Open Alfred and type `~/Pictures`.
+2. Press the right arrow key (`→`), or whatever key you have configured to invoke Alfred’s list of file actions.
+3. Choose the file action _Pick random files._
+4. Choose one or more file types and specify the quantities.
+5. Choose a destination folder.
+6. Hit _Submit and copy random files._
+
 
 ## Acknowledgements
 
-Random File Picker heavily depends on (and could not been have made without):
+Random File Picker depends on (and could not been have made without):
 
 - [alfred2-ruby-framework](https://github.com/canadaduane/alfred2-ruby-framework) by Zhao Cai, and
 
 - of course, [Alfred](https://www.alfredapp.com/) by Andrew and Vero Pepperrell of Running&amp;nbsp;with&amp;nbsp;Crayons Ltd.
 
 
-## Legal notice
+# Legal notice
 
 Random File Picker is in no way affiliated with, nor has it any connection to, nor is it endorsed by, Andrew and Vero Pepperrell or their company Running with Crayons Ltd., or Zhao Cai.
 
 
-## License
+# License
 
-Copyright (c) 2018, Claudia.
+Copyright (c) 2018 Claudia &lt;clau@tiqua.de&gt;
 
 Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
 
-THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-</string>
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</string>
 	<key>uidata</key>
 	<dict>
-		<key>13D3AD94-ECBD-4260-8E99-E430B03DB87D</key>
+		<key>18D64935-3D3E-426B-AB73-BF54FE73EB1C</key>
 		<dict>
+			<key>note</key>
+			<string>Copy files</string>
 			<key>xpos</key>
-			<integer>70</integer>
+			<integer>1430</integer>
 			<key>ypos</key>
-			<integer>300</integer>
+			<integer>920</integer>
 		</dict>
 		<key>1AD254CB-357C-4889-98BF-CD8BEEB41D24</key>
 		<dict>
@@ -667,14 +852,35 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 			<key>xpos</key>
 			<integer>1070</integer>
 			<key>ypos</key>
-			<integer>690</integer>
+			<integer>950</integer>
+		</dict>
+		<key>1C25016B-F972-47CD-B2EE-DAB9BBA49496</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1660</integer>
+			<key>ypos</key>
+			<integer>920</integer>
+		</dict>
+		<key>22E5321F-D45F-4424-9678-F4A0278D3E6B</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1200</integer>
+			<key>ypos</key>
+			<integer>520</integer>
+		</dict>
+		<key>2AFE0C71-C150-4318-ACA8-1AE2DD7A03D7</key>
+		<dict>
+			<key>xpos</key>
+			<integer>1200</integer>
+			<key>ypos</key>
+			<integer>920</integer>
 		</dict>
 		<key>3F85C821-C554-4A93-BA2D-C2C3AF8AD8BF</key>
 		<dict>
 			<key>xpos</key>
 			<integer>1680</integer>
 			<key>ypos</key>
-			<integer>300</integer>
+			<integer>320</integer>
 		</dict>
 		<key>5CB6A2A4-0E8F-4A05-A9E0-38EDBA7337BD</key>
 		<dict>
@@ -697,7 +903,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 			<key>xpos</key>
 			<integer>1200</integer>
 			<key>ypos</key>
-			<integer>480</integer>
+			<integer>720</integer>
 		</dict>
 		<key>739F94F1-DF15-4A22-A151-7E008F846010</key>
 		<dict>
@@ -715,7 +921,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 			<key>xpos</key>
 			<integer>1070</integer>
 			<key>ypos</key>
-			<integer>510</integer>
+			<integer>750</integer>
 		</dict>
 		<key>9B6962B7-8993-4EBF-91EA-041A3C0DFCFD</key>
 		<dict>
@@ -724,7 +930,7 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 			<key>xpos</key>
 			<integer>1070</integer>
 			<key>ypos</key>
-			<integer>330</integer>
+			<integer>350</integer>
 		</dict>
 		<key>B9C47986-329D-480B-8797-2616D6608E4A</key>
 		<dict>
@@ -733,16 +939,25 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 			<key>xpos</key>
 			<integer>1070</integer>
 			<key>ypos</key>
-			<integer>870</integer>
+			<integer>1150</integer>
+		</dict>
+		<key>C450DD2C-F01F-4E1A-BA72-991476BFBCF8</key>
+		<dict>
+			<key>note</key>
+			<string>→ list_file_types</string>
+			<key>xpos</key>
+			<integer>1380</integer>
+			<key>ypos</key>
+			<integer>550</integer>
 		</dict>
 		<key>C6E8A180-76DA-47C3-BE02-44118CBE43C7</key>
 		<dict>
 			<key>note</key>
 			<string>→ list_file_types</string>
 			<key>xpos</key>
-			<integer>1370</integer>
+			<integer>1380</integer>
 			<key>ypos</key>
-			<integer>510</integer>
+			<integer>750</integer>
 		</dict>
 		<key>DBED4289-ADD1-4053-A38A-0CCCEB76F8DD</key>
 		<dict>
@@ -750,13 +965,6 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 			<integer>700</integer>
 			<key>ypos</key>
 			<integer>150</integer>
-		</dict>
-		<key>DCCAB01E-3D05-4AA6-8672-1268A0143BA2</key>
-		<dict>
-			<key>xpos</key>
-			<integer>220</integer>
-			<key>ypos</key>
-			<integer>330</integer>
 		</dict>
 		<key>E1EF38D9-BECE-4171-9F26-98BD0C3B96CF</key>
 		<dict>
@@ -772,21 +980,32 @@ THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH RE
 			<key>ypos</key>
 			<integer>120</integer>
 		</dict>
+		<key>E55C3764-BD8C-48E1-9ACA-3A1E7A8C61A9</key>
+		<dict>
+			<key>note</key>
+			<string>choose_destination?</string>
+			<key>xpos</key>
+			<integer>1070</integer>
+			<key>ypos</key>
+			<integer>550</integer>
+		</dict>
 		<key>F56EDAC3-79B3-4B96-B275-3E7E1AE1D355</key>
 		<dict>
 			<key>xpos</key>
 			<integer>1200</integer>
 			<key>ypos</key>
-			<integer>840</integer>
+			<integer>1120</integer>
 		</dict>
 		<key>FD28022F-1950-4E95-8D71-00A6399E5C73</key>
 		<dict>
 			<key>xpos</key>
 			<integer>1200</integer>
 			<key>ypos</key>
-			<integer>300</integer>
+			<integer>320</integer>
 		</dict>
 	</dict>
+	<key>version</key>
+	<string>0.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/claui/alfred-random_file_picker</string>
 </dict>
